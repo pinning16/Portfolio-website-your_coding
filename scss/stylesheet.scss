@@ -1,0 +1,882 @@
+@charset "utf-8";
+// mixin ブレイクポイント；990,767
+// $pc:1440px;
+$tab:990px;
+$sp:767px;
+
+@mixin tab  {
+  @media (max-width:($tab))  {
+      @content;
+  }
+}
+@mixin sp  {
+  @media (max-width:($sp))  {
+      @content;
+  }
+}
+
+// 変数
+// カラー
+$color-black: #333333;
+$color-white: #FFFFFF;
+$color-blue: #3BA6C9;
+$color-gray: #444444;
+$color-light-blue: #EEFBFB;
+
+/* --------------------------------------------------------
+    共通パーツ
+  -------------------------------------------------------- */
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+
+}
+.container {
+  max-width: 1088px;
+  width: 100%;
+  margin: 0 auto;
+}
+.section__title {
+  font-size: 32px;
+  font-weight: bold;
+  color: $color-black;
+  padding-top: 64px;
+  text-align: center;
+  line-height: 2;
+  margin-bottom: 13px;
+  @include sp {
+    margin: 0 20px 13px;
+    font-size: 25px;
+  }
+}
+.section__text {
+  font-size: 16px;
+  color: $color-blue;
+  text-align: center;
+  line-height: 1.5;
+}
+.section__btn-link {
+  text-align: center;
+  font-size: 14px;
+  color: $color-white;
+  line-height: 2.5;
+  width: 155px;
+  height: 37px;
+  display: inline-block;
+  border-radius: 10px;
+  background: linear-gradient(90deg,#FA41CC,#6020B0);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .16);
+  transition: all 0.5s ease;
+  @include sp {
+    max-width: 155px;
+    width: 100%;
+  }
+  &:hover {
+    box-shadow: none;
+    transform: translate3d(0, 5px, 0);
+  }
+}
+/* --------------------------------------------------------
+  各セクションのCSS
+  -------------------------------------------------------- */
+// start header
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  margin: 0 auto;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .16);
+  background-color: $color-white;
+
+  &__inner {
+    height: 94px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    line-height: 94px;
+
+    @include sp {
+      height: 70px;
+      padding: 0 25px;
+    }
+  }
+  &__left {
+    transition: all 0.5s ease;
+    // 0.5秒かけて要数を変化
+    &:hover {
+        opacity: 0.5;
+    }
+  }
+  &__logo {
+    display: flex;
+  }
+  &__img {
+    margin-top: 24px;
+    margin-right: 16px;
+    @include tab{
+      margin-top: 11px;
+    }
+  }
+  &__text {
+    font-size: 24px;
+    @include sp {
+      font-size: 18px;
+      line-height: 70px;
+    }
+  }
+  &__list {
+    display: flex;
+    @include sp {
+      display: none;
+    }
+  }
+  &__item {
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.5s ease;
+    // 0.5秒かけて要数を変化
+    &:hover {
+        opacity: 0.5;
+    }
+    &:nth-child(2) {
+      margin: 0 46px;
+    }
+  }
+  &__btn {
+    @include sp {
+      display: none;
+    }
+  }
+}
+
+//start sp-nav ハンバーガーメニュー
+.sp-nav {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background: linear-gradient(90deg,#05A5FA,#63FBD7);
+  text-align: center;
+  // 彈出視窗從左　左から出るため
+  transform: translateY(100%);
+  transition: all 0.6s;
+  width: 100%;
+  height: 100%;
+  padding-top: 150px;
+  &__list {
+    width: 100%;
+    height: 100%;
+  }
+  &__item {
+    font-size: 20px;
+    color: $color-white;
+    font-weight: bold;
+    line-height: 80px;
+    text-shadow: 2px 3px 4px #808080;
+  }
+  &__link {
+    display: block;
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+}
+
+/* このクラスを、jQueryで付与・削除する */
+.sp-nav.active {
+  transform: translateX(0%);
+}
+.navToggle {
+  display: none;
+  @include sp {
+  display: block;
+  position: fixed;
+  /* bodyに対しての絶対位置指定 */
+  right: 20px;
+  top: 27px;
+  width: 25px;
+  height: 16px;
+  cursor: pointer;
+  z-index: 3;
+  &__span {
+    display: block;
+    position: absolute;
+    /* .navToggleに対して */
+    width: 30px;
+    border-bottom: solid 2px $color-black;
+    -webkit-transition: .35s ease-in-out;
+    -moz-transition: .35s ease-in-out;
+    transition: .35s ease-in-out;
+    left: 0px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .16);
+
+    &:nth-child(1) {
+        top: 0px;
+    }
+    &:nth-child(2) {
+        top: 8px;
+    }
+    &:nth-child(3) {
+        top: 16px;
+    }
+  }
+  }
+}
+/* 最初のspanをマイナス45度に */
+.navToggle.active span {
+  &:nth-child(1) {
+    top: 8px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    border-bottom: solid 2px $color-white;
+  }
+
+/* 2番目と3番目のspanを45度に */
+  &:nth-child(2),&:nth-child(3) {
+    top: 8px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-bottom: solid 2px $color-white;
+  }
+}
+//end sp-nav ハンバーガーメニュー
+// end header
+
+// start mv
+.mv {
+  max-width: 1366px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  background-image: url(../img/bg/circle.png);
+  // positionの位置：左から右、上から下調整
+  background-position: 116% 100%;
+  background-size: 740px auto;
+  background-repeat: no-repeat;
+  // Retina対応
+  @media screen and (-webkit-min-device-pixel-ratio:2),
+  (min-resolution: 2dppx) {
+    & {
+    background-image:url(../img/bg/circle@2x.png);
+    }
+  }
+  @include tab {
+    background-size: cover;
+  }
+  &__wrapper {
+    padding-top: 225px;
+    display: flex;
+    @include tab {
+      flex-direction: column-reverse;
+      align-items: center;
+      padding-top: 90px;
+    }
+  }
+  &__inner {
+    width: 32%;
+    @include tab {
+      text-align:center;
+      width: 100%;
+    }
+  }
+  &__title {
+    font-size: 32px;
+    line-height: 1.5;
+    font-weight: bold;
+    color: $color-black;
+    @include tab{
+      width: 53%;
+      margin: 0 auto;
+    }
+    @include sp {
+      width: 100%;
+      font-size: 22px;
+      margin-top: 30px;
+    }
+  }
+  &__text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: $color-black;
+    margin: 39px 0;
+    @include sp {
+      font-size: 14px;
+      margin: 20px 0 39px;
+    }
+  }
+  &__photo {
+    margin-left: 133px;
+    @include tab {
+      margin: 0;
+    }
+  }
+  &__img {
+      width: 100%;
+      height: auto;
+  }
+}
+// end mv
+// start features
+.features {
+  padding: 30px 0 61px;
+  &__list {
+    margin: 0 20px;
+  }
+  &__title {
+    text-align: center;
+    font-size: 28px;
+    // line-height: 1;
+    margin-top: 60px;
+    @include sp {
+      font-size: 25px;
+    }
+  }
+  &__wrapper {
+    width: 50%;
+    @include tab {
+      padding: 0 20px;
+    }
+    @include sp {
+      width: 100%;
+      padding: 50px 20px;
+    }
+  }
+  &__text {
+    font-size: 24px;
+    line-height: 2;
+    color: $color-black;
+    font-weight: bold;
+    margin-bottom: 43px;
+    @include sp {
+      margin-bottom: 30px;
+    }
+    & br {
+      @include sp {
+        display: none;
+      }
+    }
+    @include tab {
+      font-size: 22px;
+      line-height: 1.5;
+    }
+  }
+  &__contents {
+    margin-bottom: 50px;
+  }
+  &__description {
+    font-size: 16px;
+    line-height: 1.5;
+    color: $color-black;
+    @include tab {
+      font-size: 14px;
+      text-align: left;
+    }
+  }
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    margin-bottom: 30px;
+    // 写真とテキスト左右交換
+    &:nth-child(4) {
+      flex-direction: row-reverse;
+      @include sp {
+        flex-direction: column;
+      }
+    }
+    @include sp {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  &__photo {
+    max-width: 380px;
+    width: 100%;
+    height: auto;
+  }
+}
+// end features
+// start price
+.price {
+  margin: 0 auto;
+  padding: 30px 20px 71px;
+  width: 100%;
+  background-color: $color-light-blue;
+  &__table {
+    max-width: 926px;
+    width: 100%;
+    border:1px solid #E5E5E5;
+    margin: 73px auto 26px;
+    background-color: $color-white;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .16);
+  }
+  &__item {
+    font-size: 16px;
+    line-height: 1.5;
+    padding-left: 19px;
+    vertical-align: middle;
+    width: 35%;
+    height: 94px;
+    @include sp {
+      font-size: 14px;
+      padding: 0 10px;
+
+    }
+  }
+  &__text {
+    font-size: 16px;
+    padding-left: 31px;
+    vertical-align: middle;
+    @include sp {
+      font-size: 14px;
+      padding-left: 10px;
+    }
+  }
+  &__bottom {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1px;
+    @include sp {
+      font-size: 14px;
+    }
+  }
+}
+// start faq accordion
+.faq {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0px 20px 86px;
+  @include sp {
+    padding-bottom: 56px;
+  }
+  &__accordion {
+    &-container {
+      max-width: 907px;
+      width: 100%;
+      margin: 35px auto;
+      border:1px solid #e5e5e5;
+    }
+    &-container &-title {
+      position: relative;
+      margin: 0;
+      cursor: pointer;
+      padding: 19px 45px 20px 20px;
+      // icon設定
+      &::after {
+        content: "";
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-top-color:  $color-blue;
+        margin-left: 10px;
+      }
+      &.open::after {
+        content: "";
+        position: absolute;
+        top: 15px;
+        border: 8px solid transparent;
+        border-bottom-color: $color-blue;
+        margin-left: 10px;
+      }
+    }
+    &-title {
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.5;
+      color: $color-gray;
+      &:not(:nth-of-type(1)) {
+        border-top: 1px solid #e5e5e5;
+      }
+    }
+    /*CSS for CodePen*/
+    &-content {
+      font-size: 14px;
+      line-height: 26px;
+      border: 1px solid #E5E5E5;
+      padding: 35px 27px 28px;
+      background-color: #F2F2F2;
+      border-top: 1px solid #e5e5e5;
+      }
+  }
+}
+  // end faq accordion
+  // start blog
+  .blog {
+    width: 100%;
+    background-color: $color-light-blue;
+    &__wrap {
+      max-width: 1366px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0px 60px 91px;
+      @include tab {
+        padding: 0px 20px 91px;
+      }
+    }
+    &__list {
+      margin-top: 57px;
+      display: flex;
+      justify-content: space-between;
+      @include tab {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    &__item {
+      width: 30%;
+      background-color: $color-white;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .16);
+      // data　位置一斉にmargin-top auto
+      display: flex;
+      flex-direction: column;
+        &:nth-child(2) {
+        margin: 0 30px;
+        @include tab {
+          margin:50px 0px;
+        }
+       }
+       @include tab {
+         width: 100%;
+       }
+    }
+    &__photo {
+      width: 100%;
+      height: auto;
+    }
+    &__text {
+      font-size: 18px;
+      line-height: 1.5;
+      color: $color-black;
+      padding: 14px 18px 10px;
+      @include tab {
+        font-size: 16px;
+      }
+    }
+    &__date {
+      text-align: right;
+      font-size: 16px ;
+      margin-top: auto;
+      padding: 0 18px 10px;
+    }
+  }
+  // end blog
+// start swiper
+.swiper {
+  &-container {
+    max-width: 1366px;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 91px;
+  }
+  &-slide {
+    width: 100%;
+    height: auto;
+    border: 1px solid #DDDDDD;
+    border-radius: 8px;
+    background-color: $color-white;
+    &-img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 24px;
+    }
+  }
+  &-wrapper {
+    margin-top: 71px;
+  }
+  &__inner {
+    width: 100%;
+    padding: 0 18px;
+  }
+  &__title {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 34px;
+    @include tab {
+      font-size: 14px;
+    }
+    & br {
+      display: none;
+    }
+  }
+  &__text {
+    font-size: 16px;
+    line-height: 1.5;
+    padding-bottom: 34px;
+    @include tab {
+      font-size: 14px;
+    }
+    & br:nth-of-type(1) {
+      @include sp {
+        display: none;
+      }
+    }
+  }
+}
+
+// start contact
+.contact {
+  width: 100%;
+  background: linear-gradient(90deg,#05A5FA,#63FBD7);
+  padding: 94px 20px 73px;
+  margin: 0 auto;
+  &__title {
+    font-size: 32px;
+    font-weight: bold;
+    color: $color-white;
+    text-align: center;
+    line-height: 43px;
+    margin-bottom: 17px;
+  &-en {
+    font-size: 16px;
+    color: $color-white;
+    text-align: center;
+    line-height: 27px;
+    margin-bottom: 17px;
+    }
+  &-catch {
+    font-size: 16px;
+    color: $color-white;
+    text-align: center;
+    line-height: 27px;
+    }
+  }
+  &__box {
+      max-width: 908px;
+      width: 100%;
+      margin: 42px auto 0;
+      padding-bottom: 61px;
+      background-color: $color-white;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .16);
+
+  }
+  &__item {
+    display: flex;
+    flex-direction: column;
+    padding: 0 52px;
+    @include tab{
+      padding: 0 20px;
+
+    }
+  }
+  &__label {
+      font-size: 16px;
+      color: $color-black;
+      margin: 29px 0 5px;
+      font-weight: bold;
+      line-height: 26px;
+
+      @include sp {
+        display: block;
+        max-width: 499px;
+        margin: 19px 0 5px;
+      }
+  }
+  &__note {
+      display: inline-block;
+      background-color: #0C449B;
+      color: $color-white;
+      font-size: 14px;
+      height: 30px;
+      width: 60px;
+      line-height: 30px;
+      border-radius: 5px;
+      margin-left: 8px;
+      text-align: center;
+  }
+  &__text-input {
+      margin-top: 5px;
+      font-weight: 400;
+      width: 100%;
+      padding: 6px 12px;
+      border: 1px solid #E5E5E5;
+      background-color: rgba(238, 251, 251,.8);
+  }
+  &__textarea {
+      margin-top: 5px;
+      font-weight: 400;
+      width: 100%;
+      padding: 6px 12px;
+      border: 1px solid #E5E5E5;
+      background-color: rgba(238, 251, 251,.8);
+  }
+  &__checkbox {
+      text-align: center;
+      margin-top: 10px;
+      padding: 0 30px;
+      & input[type="checkbox"] {
+          // display: none; //バリデーション機能消えたので削除
+          opacity: 0; //jsのバリデーション機能を保たせたまま、デフォルトのチェックボックスを非表示にする
+          & +label {
+              display: none;
+              cursor: pointer;
+              display: inline-block;
+              position: relative;
+              padding-left: 25px;
+              padding-right: 10px;
+              @include sp {
+                font-size: 14px;
+                padding-left: 20px;
+              }
+          }
+          & +label::before {
+              content: "";
+              position: absolute;
+              display: block;
+              box-sizing: border-box;
+              width: 20px;
+              height: 20px;
+              margin-top: -10px;
+              left: 0;
+              top: 50%;
+              border: 1px solid;
+              border-color:  #585753; /* 枠の色変更*/
+              background-color: #FFF; /* 背景の色変更*/
+              @include sp {
+                width: 16px;
+                height: 16px;
+              }
+          }
+          /* チェックが入った時のV点 */
+          &:checked+label::after {
+              content: "";
+              position: absolute;
+              display: block;
+              box-sizing: border-box;
+              width: 18px;
+              height: 9px;
+              margin-top: -9px;
+              top: 50%;
+              left: 3px;
+              transform: rotate(-50deg);
+              border-bottom: 4px solid;
+              border-left: 4px solid;
+              border-color:  #05A5FA; /* チェックの色変更*/
+          }
+      }
+  }
+  &__inner {
+      text-align: center;
+      margin-top: 20px;
+  }
+  // フォーム送信時に表示されるメッセージ
+  &__end-message {
+      display: none;
+      text-align: center;
+  }
+  &__false-message {
+      display: none;
+      text-align: center;
+  }
+}
+// 入力不完全の時ボタン押せないの状態
+.button--disabled[disabled] {
+  opacity: 0.4;
+}
+
+// --------------------------------------------------------
+// jQuery Validation-Engine フォームバリデーション
+// --------------------------------------------------------
+.formError {
+  left: 50% !important;// jQueryのデフォルトの設定を上書き
+  margin-top: -25px ;
+  text-align: justify;
+  @include sp {
+      margin-top: -40px;
+  }
+}
+.yournameformError {
+  @include sp {
+      margin-top: -20px;
+  }
+}
+.contentformError {
+  @include sp {
+      margin-top: -20px;
+      left: 50% !important
+  }
+}
+.formError .formErrorContent {
+  background: rgb(197,6,31);
+  color: white;
+  font-size: 13px;
+  filter: drop-shadow(5px 6px 8px gray);
+  border: none;
+  box-shadow: none;
+  padding: 8px 12px 6px;
+  border-radius: 4px;
+  line-height: 1.5;
+  @include sp {
+      padding: 5px;
+  }
+}
+// end jQuery Validation-Engine フォームバリデーション
+// start footer
+.footer {
+  background-color: $color-white;
+  text-align: center;
+  padding: 10px 20px 20px;
+  &__link {
+    display: flex;
+    justify-content: center;
+    @include sp{
+      flex-direction: column;
+    }
+  }
+  &__text {
+    font-size: 12px;
+    margin: 5px;
+    transition: all 0.5s;
+    &:hover {
+      color: $color-blue;
+    }
+  }
+  &__box{
+    margin-top: 8px;
+  }
+  &__copy {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+
+/* --------------------------------------------------------
+  jQuery
+  -------------------------------------------------------- */
+
+// jQuery スムーススクロール トップへ戻る
+#js-scroll-top {
+  position: fixed;
+  bottom: 60px;
+  right: 120px;
+  z-index: 99;
+  @include sp {
+      bottom: 15px;
+      right: 15px;
+   }
+}
+  .js-scroll-top__link {
+  background-color:rgba($color: #68E1FD, $alpha: 0.9);
+  opacity: 0.5;
+  font-size: 35px;
+  padding: 5px 15px;
+  border-radius: 4px;
+  opacity: 0.8;
+  @include sp {
+      font-size: 28px;
+  }
+}
+  .fa-angle-double-up {
+      color: $color-white;
+  }
+// end jQuery スムーススクロール トップへ戻る
+
+
